@@ -1,6 +1,8 @@
 var request=require('request');
 var yargs=require('yargs');
 
+const geocode=require('./geocode');
+
 var argv=yargs.
         options({
         a:{
@@ -12,30 +14,10 @@ var argv=yargs.
         })
         .help()
         .argv;
-
-
 const url=encodeURIComponent(argv.a);
 
-console.log(url);
-
-request({
-    url:`http://maps.googleapis.com/maps/api/geocode/json?address=${url}`,
-    json:true
-    },(err,request,body)=>{
-    if(err){
-        console.log("Unable to connecto the Google Servers.")
-    }else if(body.status==='ZERO_RESULTS'){
-        console.log("Unable to get the Adress asked for. Address Doenat Exists ")
-    }else if(body.status==='OK'){
-
-        var address=body.results[0].formatted_address;
-        var lat=body.results[0].geometry.location.lat;
-        var lan=body.results[0].geometry.location.lng;
-        console.log(address);
-        console.log(`Latitiue : ${lat}`);
-        console.log(`Latitiue : ${lan}`);
-    }
-
-
+var body=geocode.locationRequest(url,(response)=>{
+    console.log(response);
 });
+
 
