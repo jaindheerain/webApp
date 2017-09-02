@@ -5,10 +5,12 @@ const geocode=require('./geocode');
 
 const  promise=require('./promiseLocationhandler');
 
+const address="Jaypee institute of information technology"
+
 var argv=yargs.
         options({
         a:{
-         demand:true,
+         demand:false,
             string:true,
             alias:'address',
             describe:'Th address of the location you want to get the weather information about'
@@ -23,6 +25,12 @@ var body=geocode.locationRequest(url,(response)=>{
     console.log(response);
 });
 */
+if(!argv.a){
+    console.log("We no address was entered so the default address is being used");
+    promise.mainPromise(address);
 
-promise.mainPromise(argv.a);
+}
+else {
+    promise.mainPromise(argv.a);
+}
 
